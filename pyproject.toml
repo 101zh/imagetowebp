@@ -1,0 +1,20 @@
+[project]
+name = "imagetowebp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "101zh", email = "67253838+101zh@users.noreply.github.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "argparse>=1.4.0",
+    "pillow>=13.0.0",
+]
+
+[project.scripts]
+imagetowebp = "imagetowebp:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
