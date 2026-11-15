@@ -1,6 +1,6 @@
-import PIL
-import argparse
+from importlib.metadata import PackageNotFoundError, version
 
-def main() -> None:
-    print("Hello from imagetowebp!")
-    
+try:
+    __version__ = version("imagetowebp")
+except PackageNotFoundError:
+    __version__ = "0.0.0-dev"
