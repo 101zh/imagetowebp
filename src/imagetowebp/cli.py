@@ -1,7 +1,7 @@
 import argparse
 from imagetowebp.convert import convert_to_webp
 from PIL import UnidentifiedImageError
-from imagetowebp.exceptions import AnimatedImageError, InvalidPathError
+from imagetowebp.exceptions import InvalidPathError
 
 parser = argparse.ArgumentParser(
     description="A cli tool that converts images to .webp files"
@@ -20,6 +20,4 @@ def main() -> None:
     except UnidentifiedImageError:
         print(f"File: \"{args.input_path}\" cannot be identified as an image")
     except InvalidPathError as e:
-        print(e)
-    except AnimatedImageError as e:
         print(e)
