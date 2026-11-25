@@ -81,6 +81,10 @@ def process_file(file: Path, out: Path, quality: int, is_lossless: bool) -> None
         )
     except UnidentifiedImageError:
         print(f'"{file}" cannot be identified as an image, it is being ignored')
+    except ValueError as e:
+        print(f'ERROR: "{file}"; {e}')
+    except OSError as e:
+        print(f'ERROR: "{file}"; {e}')
 
 
 def create_dir_output_path(folder_path: Path, output_path: str) -> Path:
