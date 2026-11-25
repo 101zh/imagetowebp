@@ -1,7 +1,7 @@
 from PIL import Image, UnidentifiedImageError
 from pathlib import Path
 from imagetowebp.exceptions import InvalidPathError
-import os
+from concurrent.futures import Future, ThreadPoolExecutor, as_completed
 
 
 def convert_to_webp(
@@ -49,24 +49,38 @@ def create_file_output_path(input_path: Path, output_path: str) -> Path:
 
 
 def convert_directory(
-    folder_path: Path, output_path: str, quality: int, is_lossless: bool
+    folder_path: Path, output_path: str, quality: int, is_lossless: bool, threads: int
 ) -> None:
     out: Path = create_dir_output_path(folder_path, output_path)
 
     files = folder_path.glob("*")
 
-    for file in files:
-        if file.is_file(): # Only processes files inside a folder
-            try:
-                convert_file(
-                    file,
-                    out.joinpath(file.name).with_suffix(".webp"),
-                    quality,
-                    is_lossless,
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        futures: list[Future] = []
+
+        for file in files:
+            if file.is_file():  # Only processes files inside a folder
+                # Tells executor to run a thread to process a file and add that thread to a list of threads
+                futures.append(
+                    executor.submit(process_file, file, out, quality, is_lossless)
                 )
-            except UnidentifiedImageError:
-                # If a file is not a valid image, it skips over it and prints that it will be ignored
-                print(f'"{file}" cannot be identified as an image, it is being ignored')
+
+        # Waits for all file conversion to be completed before ending function
+        # by checking if all threads in the list have been completed
+        for future in as_completed(futures):
+            future.result()
+
+
+def process_file(file: Path, out: Path, quality: int, is_lossless: bool) -> None:
+    try:
+        convert_file(
+            file,
+            out.joinpath(file.name).with_suffix(".webp"),
+            quality,
+            is_lossless,
+        )
+    except UnidentifiedImageError:
+        print(f'"{file}" cannot be identified as an image, it is being ignored')
 
 
 def create_dir_output_path(folder_path: Path, output_path: str) -> Path:
