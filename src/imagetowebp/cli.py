@@ -66,6 +66,13 @@ def main() -> None:
         print(e)
     except IllegalArgumentError as e:
         print(e)
+    except ValueError as e:
+        print(e)
+    except OSError as e:
+        print(e)
+    except Exception as e:
+        print(e)
+        print("Unanticipated Error: submit a bug report at https://github.com/101zh/imagetowebp")
 
 
 def validate_quality_arg(quality_arg: str) -> int:
