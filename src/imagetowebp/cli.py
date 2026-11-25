@@ -1,5 +1,5 @@
 import argparse
-from imagetowebp.convert import convert_to_webp
+from imagetowebp.convert import convert_to_webp, convert_directory
 from PIL import UnidentifiedImageError
 from imagetowebp.exceptions import InvalidPathError, IllegalArgumentError
 from pathlib import Path
@@ -7,11 +7,11 @@ from pathlib import Path
 parser = argparse.ArgumentParser(
     description="A cli tool that converts images to .webp files"
 )
-parser.add_argument("input_path", help="The file path of image to be converted")
+parser.add_argument("input_path", help="The file/folder path of image(s) to be converted")
 parser.add_argument(
     "-o",
     "--output-path",
-    help="The output folder or file path for converted file",
+    help="The output file/folder path for converted file(s)",
     default=None,
 )
 parser.add_argument(
@@ -39,7 +39,12 @@ def main() -> None:
         img_path: Path = validate_input_path(args.input_path)
         quality: int = validate_quality_arg(args.quality)
 
-        convert_to_webp(img_path, args.output_path, quality, args.lossless)
+        if img_path.is_dir():
+            convert_directory(img_path, args.output_path, quality, args.lossless)
+        else:
+            convert_to_webp(img_path, args.output_path, quality, args.lossless)
+
+        print("All Done!")
     except UnidentifiedImageError:
         print(f'File: "{args.input_path}" cannot be identified as an image')
     except InvalidPathError as e:
