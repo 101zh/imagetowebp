@@ -2,3 +2,9 @@ class InvalidPathError(Exception):
     def __init__(self, message):
         self.message = message
         super().__init__(self.message)
+
+
+class IllegalArgumentError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(self.message)
