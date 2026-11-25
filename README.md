@@ -2,6 +2,60 @@
 
 A CLI tool that helps you convert images files to the .webp format.
 
+## How to install
+
+1. Install Python version 3.14 or greater from [https://www.python.org/downloads/](https://www.python.org/downloads/) or through the command line
+2. Use pip to install pipx and use pipx to install imagetowebp
+
+### Windows
+
+```bash
+pip install pipx
+python -m pipx ensurepath
+python -m pipx install git+https://github.com/101zh/imagetowebp.git
+```
+
+### Linux
+
+```bash
+# Might need to run `sudo apt update` or `sudo add-apt-repository universe`
+sudo apt install pipx
+pipx ensurepath
+pipx install git+https://github.com/101zh/imagetowebp.git
+```
+
+### Mac
+
+1. Also install brew from [https://brew.sh/](https://brew.sh/)
+
+```bash
+brew install pipx
+pipx ensurepath
+pipx install git+https://github.com/101zh/imagetowebp.git
+```
+
+## How to Use imagetowebp
+
+1. Use the help command to view all the options
+
+```bash
+imagetowebp -h
+```
+
+1. If you want to convert a **singular** image into the .webp format, use the following command
+
+```bash
+imagetowebp .\path\to\photo.png
+```
+
+1. If you want to convert a **directory** of images into the .webp format, use the following command. (Both commands are the same it is just whether you pass in a folder or file)
+
+```bash
+imagetowebp .\path\to\photosfolder\
+```
+
+1. There are other flags that can be used to alter the how the processing of image files is done, which can be seen by using `imagetowebp -h`
+
 ## Project Goal
 
 The goal of this project is create a cli tool that is available from the command line that can convert image files to .webp files.
