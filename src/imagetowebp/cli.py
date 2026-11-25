@@ -2,6 +2,7 @@ import argparse
 from imagetowebp.convert import convert_to_webp
 from PIL import UnidentifiedImageError
 from imagetowebp.exceptions import InvalidPathError, IllegalArgumentError
+from pathlib import Path
 
 parser = argparse.ArgumentParser(
     description="A cli tool that converts images to .webp files"
@@ -35,10 +36,38 @@ def main() -> None:
     args = parser.parse_args()
 
     try:
-        convert_to_webp(args.input_path, args.output_path, args.quality, args.lossless)
+        img_path: Path = validate_input_path(args.input_path)
+        quality: int = validate_quality_arg(args.quality)
+
+        convert_to_webp(img_path, args.output_path, quality, args.lossless)
     except UnidentifiedImageError:
         print(f'File: "{args.input_path}" cannot be identified as an image')
     except InvalidPathError as e:
         print(e)
     except IllegalArgumentError as e:
         print(e)
+
+
+def validate_quality_arg(quality_arg: str) -> int:
+    try:
+        quality = int(quality_arg)
+
+        if quality < 0 or quality > 100:
+            raise IllegalArgumentError(
+                f'"{quality_arg}" is not a valid number for quality'
+            )
+
+        return quality
+    except ValueError:
+        raise IllegalArgumentError(
+            f'"{quality_arg}" is not a whole number for the quality parameter'
+        )
+
+
+def validate_input_path(input_path: str) -> Path:
+    img_path: Path = Path(input_path)
+
+    if not img_path.exists():
+        raise InvalidPathError(f'Input file/directory: "{input_path}" does not exist')
+
+    return img_path
