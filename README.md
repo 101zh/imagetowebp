@@ -28,7 +28,8 @@ When making websites, it is good to add images because the add a bit of life to 
 Rather than cloning this repository, this tool can be installed using `pipx` and ran directly through the command line.
 
 1. Install Python version 3.14 or greater from [https://www.python.org/downloads/](https://www.python.org/downloads/) or through the command line.
-2. Use pip to install pipx and use pipx to install imagetowebp.
+2. Install git from here [https://git-scm.com/install/](https://git-scm.com/install/)
+3. Use pip to install pipx and use pipx to install imagetowebp.
 
 ### Windows
 
@@ -107,6 +108,7 @@ All Done!
 - [x] Pass arguments to image processing library
 - [x] Create the new .webp file once an image file is processed
 - [x] Error handling for invalid files or arguments
+- [x] Add quality and lossless options for conversion
 - [x] Support for .jpg, .png, and .gif
 - [x] Use multithreading to process a directory of image files
 - [ ] Add conversion of image files to other types
